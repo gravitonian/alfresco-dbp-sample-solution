@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>activiti-extension</artifactId>
+  <name>Activiti Extension</name>
+  <description>Activiti extension JAR (to be included in the activiti_app.war)</description>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>org.alfresco</groupId>
+    <artifactId>alfresco-dbp-sample-solution</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <!-- Properties used in dependency declarations, need to shell script into APS container to see exact versions -->
+    <activiti.groupId>com.activiti</activiti.groupId>
+    <activiti.version>1.9.0.3</activiti.version>
+
+    <!-- Compile with Java 8, default is 5 -->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <!-- The main Activiti Enterprise application dependency that brings in all
+         needed classes to compile your customizations -->
+    <dependency>
+      <groupId>${activiti.groupId}</groupId>
+      <artifactId>activiti-app-logic</artifactId>
+      <version>${activiti.version}</version>
+    </dependency>
+
+    
+    <!--  This requires you to first clone https://github.com/gravitonian/acs-rest-api-java-client
+          and then run mvn install so you have this lib in your local maven repo. -->
+    <!-- ACS ReST API Java Client -->
+    <dependency>
+      <groupId>org.alfresco</groupId>
+      <artifactId>acs-rest-api-java-client</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    
+
+    <!-- Testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <!-- Filter the resource files in this project and do property substitutions -->
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <testResources>
+      <!-- Filter the test resource files in this project and do property substitutions -->
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+  </build>
+</project>

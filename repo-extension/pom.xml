@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Parent Community POM with all dependency versions -->
+    <parent>
+      <groupId>org.alfresco</groupId>
+      
+        <artifactId>acs-community-packaging</artifactId>
+      
+      
+      <version>6.0.7-ga</version>
+      <relativePath></relativePath> <!-- Add empty parent POM path so it resolves from repositories, and not from ../pom.xml -->
+    </parent>
+
+    <groupId>org.alfresco</groupId>
+    <artifactId>repo-extension</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>Repository Extension</name>
+    <description>Repository extension module JAR (to be included in the alfresco.war)</description>
+    <packaging>jar</packaging>
+
+    <dependencies>
+      <dependency>
+        <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-repository</artifactId>
+        <!-- No need to specify version, it is picked up from dependency management in parent POM -->
+      </dependency>
+
+      
+      <!--  This requires you to first clone https://github.com/gravitonian/aps-rest-api-java-client
+            and then run mvn install so you have this lib in your local maven repo. -->
+      <!-- APS ReST API Java Client -->
+      <dependency>
+        <groupId>org.activiti</groupId>
+        <artifactId>aps-rest-api-java-client</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      
+    </dependencies>
+
+    <build>
+      <plugins>
+        
+        
+      </plugins>
+
+      <!-- Make sure resources are filtered (e.g. module.id=${project.artifactId} -> module.id=repo-extension) -->
+      <resources>
+        <resource>
+          <directory>src/main/resources</directory>
+          <filtering>true</filtering>
+        </resource>
+      </resources>
+    </build>
+</project>

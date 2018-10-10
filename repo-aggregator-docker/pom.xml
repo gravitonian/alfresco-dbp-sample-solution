@@ -1,0 +1,199 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>repo-aggregator-docker</artifactId>
+    <name>Alfresco Repository Aggregator and Repository Docker Image Build</name>
+    <description>Alfresco Repository Extensions Aggregator and Repository Docker Image Build - JAR and AMP assembly under /target/extensions for use by Dockerfile</description>
+    <packaging>pom</packaging>
+
+    <parent>
+      <groupId>org.alfresco</groupId>
+      <artifactId>alfresco-dbp-sample-solution</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <!-- Define the dependencies that should be part of custom Alfresco Repo (ACS) image -->
+    <dependencies>
+        
+        
+        
+        <!-- Our custom repo JAR extension -->
+        
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>repo-extension</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            
+        </dependency>
+        
+        
+        <!--  This requires you to first clone https://github.com/gravitonian/aps-rest-api-java-client
+              and then run mvn install so you have this lib in your local maven repo. -->
+        <!-- APS ReST API Java Client -->
+        <dependency>
+          <groupId>org.activiti</groupId>
+          <artifactId>aps-rest-api-java-client</artifactId>
+          <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <!-- APS ReST API Java Client Dependencies - HTTP Lib -->
+        <dependency>
+          <groupId>com.squareup.okhttp</groupId>
+          <artifactId>okhttp</artifactId>
+          <version>2.7.5</version>
+        </dependency>
+        <!-- ACS ReST API Java Client Dependencies - I/O Lib -->
+        <dependency>
+          <groupId>com.squareup.okio</groupId>
+          <artifactId>okio</artifactId>
+          <version>1.6.0</version>
+        </dependency>
+        <!-- ACS ReST API Java Client Dependencies - JSON Parsing Lib -->
+        <dependency>
+          <groupId>com.google.code.gson</groupId>
+          <artifactId>gson</artifactId>
+          <version>2.8.1</version>
+        </dependency>
+        <dependency>
+          <groupId>io.gsonfire</groupId>
+          <artifactId>gson-fire</artifactId>
+          <version>1.8.0</version>
+        </dependency>
+        <!-- ACS ReST API Java Client Dependencies - ThreeTen-Backport provides a backport of the Java SE 8 date-time classes to Java SE 6 and 7 -->
+        <dependency>
+          <groupId>org.threeten</groupId>
+          <artifactId>threetenbp</artifactId>
+          <version>1.3.5</version>
+        </dependency>
+        
+
+        <!-- Other extensions (JARs or AMPs) that need to be included, such as 3rd party libs
+
+       ...
+
+       -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-repo-extensions</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                
+                                <artifactItem>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>repo-extension</artifactId>
+                                    <version>1.0.0-SNAPSHOT</version>
+                                    <overWrite>false</overWrite>
+                                    
+                                    <outputDirectory>${project.build.directory}/extensions</outputDirectory>
+                                </artifactItem>
+                                
+                                
+                                <artifactItem>
+                                  <groupId>org.activiti</groupId>
+                                  <artifactId>aps-rest-api-java-client</artifactId>
+                                  <version>1.0.0-SNAPSHOT</version>
+                                  <overWrite>false</overWrite>
+                                  <outputDirectory>${project.build.directory}/extensions</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                  <groupId>com.squareup.okhttp</groupId>
+                                  <artifactId>okhttp</artifactId>
+                                  <version>2.7.5</version>
+                                  <overWrite>false</overWrite>
+                                  <outputDirectory>${project.build.directory}/extensions</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                  <groupId>com.squareup.okio</groupId>
+                                  <artifactId>okio</artifactId>
+                                  <version>1.6.0</version>
+                                  <overWrite>false</overWrite>
+                                  <outputDirectory>${project.build.directory}/extensions</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                  <groupId>com.google.code.gson</groupId>
+                                  <artifactId>gson</artifactId>
+                                  <version>2.8.1</version>
+                                  <overWrite>false</overWrite>
+                                  <outputDirectory>${project.build.directory}/extensions</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                  <groupId>io.gsonfire</groupId>
+                                  <artifactId>gson-fire</artifactId>
+                                  <version>1.8.0</version>
+                                  <overWrite>false</overWrite>
+                                  <outputDirectory>${project.build.directory}/extensions</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                  <groupId>org.threeten</groupId>
+                                  <artifactId>threetenbp</artifactId>
+                                  <version>1.3.5</version>
+                                  <overWrite>false</overWrite>
+                                  <outputDirectory>${project.build.directory}/extensions</outputDirectory>
+                                </artifactItem>
+                                
+                              <!-- Other extensions (JARs or AMPs) that need to be included, such as 3rd party libs
+
+                               <artifactItem>
+                                    <groupId> the group ID </groupId>
+                                    <artifactId> the artifact ID </artifactId>
+                                    <version> version </version>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/extensions</outputDirectory>
+                                </artifactItem>
+
+                              -->
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Build the custom Alfresco Repository (ACS) Docker Image -->
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.26.1</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <alias>acs-custom</alias>
+                            <name>alfresco-content-services-custom:${project.version}</name>
+                            <build>
+                                <dockerFileDir>${project.basedir}</dockerFileDir>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>docker</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>registry</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

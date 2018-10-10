@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="acme:contentModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+    <!-- Optional meta-data about the model -->
+    <description>ACME content model</description>
+    <author>Alfresco Project Generator</author>
+    <version>1.0</version>
+
+    <imports>
+        <!-- Import Alfresco Dictionary Definitions -->
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <!-- Import Alfresco Content Domain Model Definitions -->
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+        <!-- Import Alfresco System Model Definitions -->
+        <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>
+    </imports>
+
+    <!-- Custom namespace for your domain -->
+    <namespaces>
+        <namespace uri="http://www.acme.com/model/content/1.0" prefix="acme"/>
+    </namespaces>
+
+    <constraints>
+        <constraint name="acme:securityClassificationOptions" type="LIST">
+            <parameter name="allowedValues">
+                <list>
+                    <value></value> <!-- Empty for default search -->
+                    <value>Public</value>
+                    <value>Client Confidential</value>
+                    <value>Company Confidential</value>
+                    <value>Strictly Confidential</value>
+                </list>
+            </parameter>
+        </constraint>
+        <constraint name="acme:contractIdFormat" type="REGEX">
+            <parameter name="expression">
+                <value><![CDATA[^C\d{3}$]]></value>
+            </parameter>
+            <parameter name="requiresMatch">
+                <value>true</value>
+            </parameter>
+        </constraint>
+    </constraints>
+
+    <types>
+        <type name="acme:document">
+            <title>ACME Base document type</title>
+            <parent>cm:content</parent>
+            <properties>
+                <property name="acme:documentId">
+                    <title>Document Identification Number</title>
+                    <type>d:text</type>
+                </property>
+            </properties>
+            <mandatory-aspects>
+                <aspect>acme:securityClassified</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="acme:contract">
+            <title>ACME Contract document</title>
+            <parent>acme:document</parent>
+            <properties>
+                <property name="acme:contractName">
+                    <title>Contract Name</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                </property>
+                <property name="acme:contractId">
+                    <title>Contract Identification Number</title>
+                    <type>d:text</type>
+                    <constraints>
+                        <constraint ref="acme:contractIdFormat" />
+                    </constraints>
+                </property>
+            </properties>
+        </type>
+    </types>
+
+    <aspects>
+        <aspect name="acme:securityClassified">
+            <title>ACME Security Classified</title>
+            <description>Content has been security classified</description>
+            <properties>
+                <property name="acme:securityClassification">
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                        <facetable>true</facetable>
+                    </index>
+                    <constraints>
+                        <constraint ref="acme:securityClassificationOptions" />
+                    </constraints>
+                </property>
+            </properties>
+        </aspect>
+    </aspects>
+
+</model>
