@@ -37,9 +37,12 @@
         <property name="nodeLocatorService" ref="nodeLocatorService" />
     </bean>
 
-    <bean id="org.alfresco.repo-extension.DemoAction"
-          class="org.alfresco.reposamples.DemoRepoAction"
+    <bean id="org.alfresco.repo-extension.setContractTypeRepoAction"
+          class="org.alfresco.reposamples.SetContractTypeRepoAction"
           parent="action-executer">
+        <property name="serviceRegistry">
+            <ref bean="ServiceRegistry" />
+        </property>
     </bean>
   
 </beans>
