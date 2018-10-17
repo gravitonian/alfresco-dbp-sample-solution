@@ -37,6 +37,7 @@ import org.alfresco.repository.remote.client.api.NodesApi;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.activiti.alfrescoconnector.AlfrescoConnectorConstants.ON_PREM_API_LOCATION;
@@ -109,25 +110,8 @@ public class SetContractTypeJavaDelegate implements JavaDelegate {
       client.setBasePath(url);                              // TODO: Fix these hard coded credentials...
       client.addDefaultHeader("Authorization", getCredential("admin", "admin"));
 
-      // Create/Get the main Contract Management folder
-      String contractManagementFolderName = "Contract Management";
-      Node contractManagementFolderNode =  findNode(client, contractManagementFolderName, "-root-");
-      if (contractManagementFolderNode == null) {
-        contractManagementFolderNode = createFolder(client, contractManagementFolderName,
-                "Management of Contracts",
-                "All files related to approved contracts",
-                "");
-      }
-
-      // Create a month folder under Contract Management folder
-      Integer currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1; // Zero based
-      Node monthFolderNode =  findNode(client, currentMonth.toString(), contractManagementFolderNode.getId());
-      if (monthFolderNode == null) {
-        contractManagementFolderNode = createFolder(client, currentMonth.toString(),
-                "Contracts for 1 month",
-                "All contract files for month " + currentMonth.toString(),
-                contractManagementFolderName);
-      }
+      // Create/Get folder for where to store approved contract
+      Node monthFolderNode = createFolderStructure(client);
 
       // Move contract file into month folder
       String contractFileNodeId = getContractNodeId(execution);
@@ -138,6 +122,53 @@ public class SetContractTypeJavaDelegate implements JavaDelegate {
         setContractType(client, contractFileNodeId, contractIdText, contractNameText, securityClassificationText);
       }
     }
+  }
+
+  /**
+   * Create the folder structure for where we will store the approved contracts:
+   *
+   * Company Home
+   *    Contract Management
+   *      2018
+   *        OCT
+   *
+   * @param client
+   * @return
+   * @throws Exception
+   */
+  private Node createFolderStructure(ApiClient client) throws Exception {
+    // Create/Get the main Contract Management folder
+    String contractManagementFolderName = "Contract Management";
+    Node contractManagementFolderNode =  findNode(client, contractManagementFolderName, "-root-");
+    if (contractManagementFolderNode == null) {
+      contractManagementFolderNode = createFolder(client, contractManagementFolderName,
+              "Management of Contracts",
+              "All files related to approved contracts",
+              "");
+    }
+
+    // Create/Get the year folder
+    Integer year = Calendar.getInstance().get(Calendar.YEAR);
+    Node yearFolderNode =  findNode(client, year.toString(), contractManagementFolderNode.getId());
+    if (yearFolderNode == null) {
+      yearFolderNode = createFolder(client, year.toString(),
+              "Contracts for a Year",
+              "All files related to approved contracts for year " + year,
+              contractManagementFolderName);
+    }
+
+    // Create a month folder under year folder
+    Calendar cal = Calendar.getInstance();
+    String currentMonth = new SimpleDateFormat("MMM").format(cal.getTime());
+    Node monthFolderNode =  findNode(client, currentMonth, yearFolderNode.getId());
+    if (monthFolderNode == null) {
+      monthFolderNode = createFolder(client, currentMonth,
+              "Contracts for 1 month",
+              "All contract files for month " + currentMonth,
+              contractManagementFolderName + "/" + year.toString());
+    }
+
+    return monthFolderNode;
   }
 
   /**
@@ -213,11 +244,12 @@ public class SetContractTypeJavaDelegate implements JavaDelegate {
 
   /**
    * Find a node based on name.
+   * Search term must be at least 3 characters.
    *
    * For more info: https://github.com/gravitonian/acs-rest-api-java-client/blob/master/docs/QueriesApi.md#findNodes
    *
    * @param client - the API client to use with base URL and auth
-   * @param nodeName the name of the node (i.e. folder or file) that we are looking for
+   * @param nodeName the name of the node (i.e. folder or file) that we are looking for, min 3 characters
    * @param parentNodeId the parent node under which we expect to find the node
    * @return a node object for the found node, or null if not found
    */
@@ -263,6 +295,7 @@ public class SetContractTypeJavaDelegate implements JavaDelegate {
       if (result.getList().getEntries().isEmpty() == false) {
         nodeEntry = result.getList().getEntries().get(0);
         logger.info("Found node [name=" + nodeEntry.getEntry().getName() + "]" + nodeEntry);
+        return nodeEntry.getEntry();
       }
     } catch (ApiException e) {
       logger.error("Exception when calling QueriesApi#findNodes [responseCode=" +
@@ -270,7 +303,7 @@ public class SetContractTypeJavaDelegate implements JavaDelegate {
       e.printStackTrace();
     }
 
-    return nodeEntry.getEntry();
+    return null;
   }
 
   /**

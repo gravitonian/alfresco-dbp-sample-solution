@@ -37,12 +37,26 @@
         <property name="nodeLocatorService" ref="nodeLocatorService" />
     </bean>
 
-    <bean id="org.alfresco.repo-extension.setContractTypeRepoAction"
-          class="org.alfresco.reposamples.SetContractTypeRepoAction"
+    <bean id="org.alfresco.repo-extension.DemoAction"
+          class="org.alfresco.reposamples.DemoRepoAction"
           parent="action-executer">
+    </bean>
+
+    <bean id="org.alfresco.reposamples.incomingContractFileEventHandler"
+          class="org.alfresco.reposamples.IncomingContractFileEventHandler"
+          init-method="registerEventHandlers">
+        <property name="policyComponent">
+            <ref bean="policyComponent"/>
+        </property>
         <property name="serviceRegistry">
             <ref bean="ServiceRegistry" />
         </property>
+        <property name="apsHost" value="${aps.host}" />
+        <property name="apsPort" value="${aps.port}" />
+        <property name="apsUsername" value="${aps.username}" />
+        <property name="apsPwd" value="${aps.pwd}" />
+        <property name="apsProcessDefKey" value="${aps.processdef.key}" />
+        <property name="apsTenantAlfrescoRepositorySource" value="${aps.tenant.alfresco.repository.source}" />
     </bean>
   
 </beans>
