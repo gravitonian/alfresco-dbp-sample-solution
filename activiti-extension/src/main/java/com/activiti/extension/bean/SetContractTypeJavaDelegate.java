@@ -61,7 +61,7 @@ public class SetContractTypeJavaDelegate implements JavaDelegate {
   protected AlfrescoEndpointService alfrescoEndpointService;
 
   @Autowired
-  RelatedContentService relatedContentService;
+  protected RelatedContentService relatedContentService;
 
   // Service Task fields
   private Expression alfrescoRepoId;
@@ -132,8 +132,8 @@ public class SetContractTypeJavaDelegate implements JavaDelegate {
    *      2018
    *        OCT
    *
-   * @param client
-   * @return
+   * @param client - the API client to use with base URL and auth
+   * @return the Node object for the month folder
    * @throws Exception
    */
   private Node createFolderStructure(ApiClient client) throws Exception {
@@ -499,7 +499,6 @@ public class SetContractTypeJavaDelegate implements JavaDelegate {
     return null;
   }
 
-
   /**
    * Helper method to construct the value of the Basic Auth header
    *
@@ -511,6 +510,4 @@ public class SetContractTypeJavaDelegate implements JavaDelegate {
     String authHeader = "Basic " + new String(encodedAuth);
     return authHeader;
   }
-
-
 }
