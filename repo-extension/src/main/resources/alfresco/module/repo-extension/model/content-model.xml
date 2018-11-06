@@ -70,7 +70,7 @@
                     <title>Contract Identification Number</title>
                     <type>d:text</type>
                     <constraints>
-                        <constraint ref="acme:contractIdFormat" />
+                        <constraint ref="acme:contractIdFormat"/>
                     </constraints>
                 </property>
             </properties>
@@ -91,7 +91,7 @@
                         <facetable>true</facetable>
                     </index>
                     <constraints>
-                        <constraint ref="acme:securityClassificationOptions" />
+                        <constraint ref="acme:securityClassificationOptions"/>
                     </constraints>
                 </property>
             </properties>

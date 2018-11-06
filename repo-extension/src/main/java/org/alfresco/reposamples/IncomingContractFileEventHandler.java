@@ -66,22 +66,31 @@ public class IncomingContractFileEventHandler {
     public void setServiceRegistry(ServiceRegistry serviceRegistry) {
         this.serviceRegistry = serviceRegistry;
     }
+
     public void setPolicyComponent(PolicyComponent policyComponent) {
         this.eventManager = policyComponent;
     }
+
     public void setApsPwd(String apsPwd) {
         this.apsPwd = apsPwd;
     }
+
     public void setApsUsername(String apsUsername) {
         this.apsUsername = apsUsername;
     }
+
     public void setApsPort(String apsPort) {
         this.apsPort = apsPort;
     }
+
     public void setApsHost(String apsHost) {
         this.apsHost = apsHost;
     }
-    public void setApsProcessDefKey(String apsProcessDefKey) { this.apsProcessDefKey = apsProcessDefKey; }
+
+    public void setApsProcessDefKey(String apsProcessDefKey) {
+        this.apsProcessDefKey = apsProcessDefKey;
+    }
+
     public void setApsTenantAlfrescoRepositorySource(String apsTenantAlfrescoRepositorySource) {
         this.apsTenantAlfrescoRepositorySource = apsTenantAlfrescoRepositorySource;
     }
@@ -112,8 +121,8 @@ public class IncomingContractFileEventHandler {
             logger.warn("onAddFile: A new document was added but removed in same transaction");
             return;
         } else {
-                logger.info("onAddFile: A new contract file with ref ({}) was just created in folder ({})",
-                        fileRef, parentFolderRef);
+            logger.info("onAddFile: A new contract file with ref ({}) was just created in folder ({})",
+                    fileRef, parentFolderRef);
 
             // Get the default API client and update with base URL and authentication,
             // it will be automatically used by any specific API
@@ -238,7 +247,7 @@ public class IncomingContractFileEventHandler {
      */
     private Long uploadAcsContent2Aps(NodeRef acsContentNodeRef) {
         // Get the name of the file
-        String fileName = (String)serviceRegistry.getNodeService().getProperty(acsContentNodeRef, ContentModel.PROP_NAME);
+        String fileName = (String) serviceRegistry.getNodeService().getProperty(acsContentNodeRef, ContentModel.PROP_NAME);
 
         // Set up content props
         ContentApi apiInstance = new ContentApi();

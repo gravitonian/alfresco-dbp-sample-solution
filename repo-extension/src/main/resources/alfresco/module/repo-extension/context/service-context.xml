@@ -18,23 +18,23 @@
 -->
 <beans>
 
-  
+
     <!-- A simple class that is initialized by Spring -->
     <bean id="org.alfresco.repo-extension.exampleBean"
           class="org.alfresco.reposamples.Demo"
-          init-method="init" />
+          init-method="init"/>
 
     <!-- A simple module component that will be executed once -->
     <bean id="org.alfresco.repo-extension.exampleComponent"
           class="org.alfresco.reposamples.DemoComponent"
-          parent="module.baseComponent" >
-        <property name="moduleId" value="repo-extension" />  <!-- See module.properties -->
-        <property name="name" value="exampleComponent" />
-        <property name="description" value="A demonstration component" />
-        <property name="sinceVersion" value="1.0-SNAPSHOT" />
-        <property name="appliesFromVersion" value="1.0-SNAPSHOT" />
-        <property name="nodeService" ref="NodeService" />
-        <property name="nodeLocatorService" ref="nodeLocatorService" />
+          parent="module.baseComponent">
+        <property name="moduleId" value="repo-extension"/>  <!-- See module.properties -->
+        <property name="name" value="exampleComponent"/>
+        <property name="description" value="A demonstration component"/>
+        <property name="sinceVersion" value="1.0-SNAPSHOT"/>
+        <property name="appliesFromVersion" value="1.0-SNAPSHOT"/>
+        <property name="nodeService" ref="NodeService"/>
+        <property name="nodeLocatorService" ref="nodeLocatorService"/>
     </bean>
 
     <bean id="org.alfresco.repo-extension.DemoAction"
@@ -49,14 +49,14 @@
             <ref bean="policyComponent"/>
         </property>
         <property name="serviceRegistry">
-            <ref bean="ServiceRegistry" />
+            <ref bean="ServiceRegistry"/>
         </property>
-        <property name="apsHost" value="${aps.host}" />
-        <property name="apsPort" value="${aps.port}" />
-        <property name="apsUsername" value="${aps.username}" />
-        <property name="apsPwd" value="${aps.pwd}" />
-        <property name="apsProcessDefKey" value="${aps.processdef.key}" />
-        <property name="apsTenantAlfrescoRepositorySource" value="${aps.tenant.alfresco.repository.source}" />
+        <property name="apsHost" value="${aps.host}"/>
+        <property name="apsPort" value="${aps.port}"/>
+        <property name="apsUsername" value="${aps.username}"/>
+        <property name="apsPwd" value="${aps.pwd}"/>
+        <property name="apsProcessDefKey" value="${aps.processdef.key}"/>
+        <property name="apsTenantAlfrescoRepositorySource" value="${aps.tenant.alfresco.repository.source}"/>
     </bean>
-  
+
 </beans>

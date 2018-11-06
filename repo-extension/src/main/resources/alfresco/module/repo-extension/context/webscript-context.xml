@@ -17,27 +17,10 @@
 	limitations under the License.
 -->
 <beans>
-  
-	<bean id="webscript.alfresco.tutorials.helloworld.get"
-		  class="org.alfresco.reposamples.HelloWorldWebScript"
-		  parent="webscript">
-	</bean>
 
-  
-  <bean id="webscript.alfresco.tutorials.callaps.get"
-        class="org.alfresco.reposamples.CallApsWebScript"
-        parent="webscript">
-      <property name="serviceRegistry">
-        <ref bean="ServiceRegistry" />
-      </property>
-      <property name="apsHost" value="${aps.host}" />
-      <property name="apsPort" value="${aps.port}" />
-      <property name="apsUsername" value="${aps.username}" />
-      <property name="apsPwd" value="${aps.pwd}" />
-      <property name="apsProcessDefKey" value="${aps.processdef.key}" />
-      <property name="apsTenantAlfrescoRepositorySource" value="${aps.tenant.alfresco.repository.source}" />
-  </bean>
-  
+    <bean id="webscript.alfresco.tutorials.helloworld.get"
+          class="org.alfresco.reposamples.HelloWorldWebScript"
+          parent="webscript">
+    </bean>
 
-  
 </beans>
