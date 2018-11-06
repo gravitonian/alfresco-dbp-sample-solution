@@ -1,12 +1,11 @@
 # Alfresco Extension Project for Contract Management
 This is an Alfresco extension project that can be used to build customizations for
  
-- **Activiti** (APS version 1.8.x and version 1.9.x) 
+- **Activiti** (APS version 1.9.x) 
 - **Repository** (ACS version 6.x)  
 
-It contains code that is associated with this [blog post](TODO)
-So get a full understanding off what the code implements read though 
-the blog. 
+It contains code that is associated with this [blog post](https://community.alfresco.com/people/gravitonian/blog/2018/11/06/building-content-and-process-solutions-with-acs-60-aps-19-and-adf-26)
+So get a full understanding off what the code implements read though this blog. 
  
 ## Building this project
 Build all Docker images with the extensions applied as follows:
